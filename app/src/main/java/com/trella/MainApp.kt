@@ -12,7 +12,9 @@ import org.koin.core.context.startKoin
 class MainApp : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
+        // initializing koin
         startKoin {
+            // to provide app context in all modules
             androidContext(this@MainApp)
             modules(
                 listOf(

@@ -10,14 +10,17 @@ import com.trella.common.BaseFragment
 import com.trella.common.bind
 import com.trella.shipments.R
 import com.trella.shipments.adapters.ShipmentsListAdapter
-import com.trella.shipments.vm.ShipmentsViewModel
 import com.trella.shipments.databinding.FragmentShipmentsListBinding
+import com.trella.shipments.vm.ShipmentsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ShipmentsFragment : BaseFragment<ShipmentsViewModel>() {
+
+    // shared viewModel between fragment and it's hosting activity
     override val viewModel: ShipmentsViewModel by sharedViewModel()
     private lateinit var viewBinding: FragmentShipmentsListBinding
     private lateinit var shipmentsListAdapter: ShipmentsListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

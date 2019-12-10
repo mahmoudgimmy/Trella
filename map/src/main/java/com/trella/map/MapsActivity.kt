@@ -12,13 +12,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.tbruyelle.rxpermissions2.RxPermissions
-import com.trella.common.BaseActivity
 import com.trella.common.GPSTracker
 import com.trella.map.databinding.ActivityMapsBinding
-import org.koin.android.ext.android.inject
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
@@ -38,13 +35,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
         viewBinging = ActivityMapsBinding.inflate(layoutInflater)
         viewBinging.apply {
+
+            //result back with a selected location on map
             btSave.setOnClickListener {
                 val resultIntent = Intent()
                 resultIntent.putExtra("result", selectedLocation)
                 setResult(Activity.RESULT_OK, resultIntent)
                 finish()
             }
-
+            //result back with no filtering location
             btReset.setOnClickListener {
                 val resultIntent = Intent()
                 resultIntent.putExtra("result", com.elm.entities.location.Location())
@@ -56,6 +55,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
             }
         }
         setContentView(viewBinging.root)
+
         rxPermissions
             .request(
                 Manifest.permission.INTERNET,
@@ -98,6 +98,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
         moveMarker(p0!!)
     }
 
+    // function to move marker to no location and resetting map
     private fun moveMarker(location: LatLng) {
         selectedLocation.apply {
             lat = location.latitude

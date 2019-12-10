@@ -10,7 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 
-
+// class which response of getting current location
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
@@ -78,6 +78,7 @@ public class GPSTracker extends Service implements LocationListener {
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
                     if (location == null) {
+                        assert locationManager != null;
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
@@ -167,10 +168,6 @@ public class GPSTracker extends Service implements LocationListener {
     @Override
     public IBinder onBind(Intent arg0) {
         return null;
-    }
-
-    public float getAccurecy() {
-        return location.getAccuracy();
     }
 
 

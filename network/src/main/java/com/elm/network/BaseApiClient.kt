@@ -6,8 +6,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import okhttp3.ConnectionSpec
-import java.util.*
 
 
 internal object BaseApiClient {

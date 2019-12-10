@@ -10,27 +10,41 @@ import com.elm.entities.NoInterNetConnectionException
 import com.elm.entities.UnAuthorizedException
 import com.elm.entities.interfaces.IActivityChanges
 
-abstract class BaseActivity<VM: BaseViewModel> : AppCompatActivity() {
-    abstract val viewModel:VM
+abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
+    abstract val viewModel: VM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // handling loading indicators in any activity
         viewModel.loading.observe(this, Observer {
-            when(it){
+            when (it) {
                 true -> showLoading()
                 false -> hideLoading()
             }
         })
+
+        //handling all messages in any activity (alert dialogs)
         viewModel.messages.observe(this, Observer {
             when (it.second) {
-                is UnAuthorizedException -> showAlertDialog("Authorization",it.first,
-                    BaseFragment.AlertDialogType.NoInternet.type)
-                is NoInterNetConnectionException -> showAlertDialog("No Internet Connection",it.first,
-                    BaseFragment.AlertDialogType.NoInternet.type)
-                is ErrorMessageException -> showAlertDialog("Error!",it.first,
-                    BaseFragment.AlertDialogType.Error.type)
+                is UnAuthorizedException -> showAlertDialog(
+                    "Authorization", it.first,
+                    AlertDialogType.NoInternet.type
+                )
+                is NoInterNetConnectionException -> showAlertDialog(
+                    "No Internet Connection", it.first,
+                    AlertDialogType.NoInternet.type
+                )
+                is ErrorMessageException -> showAlertDialog(
+                    "Error!", it.first,
+                    AlertDialogType.Error.type
+                )
             }
         })
     }
+
+    /**
+     * Show Loading indicator.
+     */
     private fun showLoading() {
         if (this is IActivityChanges) {
             this.showLoading(true)
@@ -46,6 +60,7 @@ abstract class BaseActivity<VM: BaseViewModel> : AppCompatActivity() {
         }
     }
 
+    // initializing of alert dialog
     open fun showAlertDialog(title: String, message: String, type: Int) {
 
         Flashbar.Builder(this)
@@ -54,8 +69,8 @@ abstract class BaseActivity<VM: BaseViewModel> : AppCompatActivity() {
             .message(message)
             .icon(
                 when (type) {
-                    BaseFragment.AlertDialogType.NoInternet.type -> R.drawable.ic_dialog_warning
-                    BaseFragment.AlertDialogType.Error.type -> R.drawable.ic_dialog_error
+                    AlertDialogType.NoInternet.type -> R.drawable.ic_dialog_warning
+                    AlertDialogType.Error.type -> R.drawable.ic_dialog_error
                     else -> R.drawable.ic_dialog_warning
                 }
             )
@@ -72,8 +87,8 @@ abstract class BaseActivity<VM: BaseViewModel> : AppCompatActivity() {
             )
             .backgroundColorRes(
                 when (type) {
-                    BaseFragment.AlertDialogType.NoInternet.type -> R.color.koromiko
-                    BaseFragment.AlertDialogType.Error.type -> R.color.red
+                    AlertDialogType.NoInternet.type -> R.color.koromiko
+                    AlertDialogType.Error.type -> R.color.red
                     else -> R.color.koromiko
                 }
             )
@@ -98,7 +113,6 @@ abstract class BaseActivity<VM: BaseViewModel> : AppCompatActivity() {
             .build().show()
 
     }
-
 
 
 }
