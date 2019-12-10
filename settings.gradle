@@ -1,0 +1,2 @@
+include ':app', ':network', ':entities', ':usecase', ':common', ':shipments', ':map'
+rootProject.name='Trella'
